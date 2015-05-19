@@ -28,7 +28,7 @@ namespace Duality.MenuSystem
         private Rectangle collision;
 
         /// <summary>
-        /// Rectangle struct.
+        /// Rectangle structure.
         /// </summary>
         public Rectangle Collision
         {
@@ -42,7 +42,7 @@ namespace Duality.MenuSystem
         private Circle circle;
 
         /// <summary>
-        /// Circle struct.
+        /// Circle structure.
         /// </summary>
         public Circle Circle
         {
@@ -76,6 +76,9 @@ namespace Duality.MenuSystem
         /// </summary>
         private Vector2 center;
 
+        /// <summary>
+        /// Center of circle.
+        /// </summary>
         public Vector2 Center
         {
             get { return center; }
