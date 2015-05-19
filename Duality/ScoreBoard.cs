@@ -1,43 +1,55 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-
 namespace Duality.Records
 {
+    /// <summary>
+    /// Holds high scores and names.
+    /// </summary>
     public class ScoreBoard
     {
-        //This class is designed to handle the high score menu and how to record new high scores
-        //This class also encrypts high scores so the file cannot be tampered with.
-        String[] textHighScores1 = new string[10];
-        String[] textHighScores2 = new string[10];
-        String[] encryptedHighScores1 = new string[10];
-        String[] encryptedHighScores2 = new string[10];
-        String[] textNames1 = new string[10];
-        String[] textNames2 = new string[10];
-        String[] encryptedNames1 = new string[10];
-        String[] encryptedNames2 = new string[10];
+        string[] textHighScores1, textHighScores2, encryptedHighScores1,
+            encryptedHighScores2, textNames1, textNames2,
+            encryptedNames1, encryptedNames2;
         int numOneScore = 0, dummy;
         string fileName, rootElement;
-        Boolean boolWorkingFileIO = true;
+        bool boolWorkingFileIO = true;
         XmlDocument scoresWrite, scoresRead;
+
+        public string[] HighScores
+        {
+            get { return textHighScores1; }
+        }
+
+        public string[] TopNames
+        {
+            get { return textNames1; }
+        }
 
         public int getNumOneScore() { return numOneScore; }
 
-        public ScoreBoard(string fileName, string rootElement)
+        /// <summary>
+        /// Holds high score records.
+        /// </summary>
+        /// <param name="fileName">Name of file to be saved to minus the extension.</param>
+        /// <param name="rootElement">Name of Root level Xml Element.</param>
+        /// <param name="length">Number of entries long the score board is.</param>
+        public ScoreBoard(string fileName, string rootElement, int length)
         {
             this.fileName = fileName;
             this.rootElement = rootElement;
+            textHighScores1 = new string[length];
+            textHighScores2 = new string[length];
+            encryptedHighScores1 = new string[length];
+            encryptedHighScores2 = new string[length];
+            textNames1 = new string[length];
+            textNames2 = new string[length];
+            encryptedNames1 = new string[length];
+            encryptedNames2 = new string[length];
         }
 
+        /// <summary>
+        /// Retrieves and decrypts high score records.
+        /// </summary>
         public void retrieveScores()
         {
             boolWorkingFileIO = true;
@@ -47,7 +59,7 @@ namespace Duality.Records
                 scoresRead = new XmlDocument();
                 scoresRead.Load(fileName + ".xml");
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < textHighScores1.Length; i++)
                 {
                     encryptedHighScores1[i] = scoresRead.SelectSingleNode("/" + rootElement + "/Score" + (i + 1)).Attributes["Score"].Value;
                     encryptedNames1[i] = scoresRead.SelectSingleNode("/" + rootElement + "/Score" + (i + 1)).Attributes["Name"].Value;
@@ -67,7 +79,7 @@ namespace Duality.Records
                     }
                     else
                     {
-                        textNames1[i] = "AAA";
+                        textNames1[i] = "FDR";
                     }
 
                     if (textHighScores1[i] == "")
@@ -75,16 +87,16 @@ namespace Duality.Records
                         textHighScores1[i] = "0";
                     }
                 }
-                scoresRead.Save("tetroHighScores.xml");
+                scoresRead.Save(fileName + ".xml");
                 numOneScore = Convert.ToInt32(textHighScores1[0]);
             }
             catch
             {
                 Console.WriteLine("No high score file was found");
-                Console.WriteLine("Generating tetroHighScores.xml");
+                Console.WriteLine("Generating " + fileName + ".xml");
                 boolWorkingFileIO = false;
                 XmlDocument create = new XmlDocument();
-                XmlNode rootNode = create.CreateElement("TetroScores");
+                XmlNode rootNode = create.CreateElement(rootElement);
                 create.AppendChild(rootNode);
 
                 for (int i = 1; i < 11; i++)
@@ -98,12 +110,16 @@ namespace Duality.Records
                     userNode.Attributes.Append(nameAttribute);
                     rootNode.AppendChild(userNode);
                 }
-                create.Save("tetroHighScores.xml");
+                create.Save(fileName + ".xml");
             }
         }
 
-        //Records Scores to an XML file on hard drive
-        public void recordScore(int sc, string n)
+        /// <summary>
+        /// Encrypts and records high score records.
+        /// </summary>
+        /// <param name="score">New score to compare.</param>
+        /// <param name="name">Name of player.</param>
+        public void recordScore(int score, string name)
         {
             boolWorkingFileIO = true;
 
@@ -112,14 +128,14 @@ namespace Duality.Records
             //If there are no file problems continue
             if (boolWorkingFileIO)
             {
-                for (int i = 0, j = 0; i < 10; i++, j++)
+                for (int i = 0, j = 0; i < textHighScores2.Length; i++, j++)
                 {
-                    if (sc > Convert.ToInt32(textHighScores1[i]) && i == j)
+                    if (score > Convert.ToInt32(textHighScores1[i]) && i == j)
                     {
-                        textHighScores2[i] = sc.ToString();
-                        textNames2[i] = n.ToString();
+                        textHighScores2[i] = score.ToString();
+                        textNames2[i] = name.ToString();
                         i++;
-                        if (i < 10)
+                        if (i < textHighScores2.Length)
                         {
                             textHighScores2[i] = textHighScores1[j];
                             textNames2[i] = textNames1[j];
@@ -142,26 +158,26 @@ namespace Duality.Records
                 {
                     scoresWrite = new XmlDocument();
 
-                    scoresWrite.Load("tetroHighScores.xml");
+                    scoresWrite.Load(fileName + ".xml");
 
-                    for (int i = 0; i < 10; i++)
+                    for (int i = 0; i < textHighScores2.Length; i++)
                     {
                         encryptedHighScores2[i] = Encrypting.StringCipher.Encrypt(textHighScores2[i], "G5bM(1inE|`JT(@GX5?:O=<*t<_EgB");
                         encryptedNames2[i] = Encrypting.StringCipher.Encrypt(textNames2[i], "US1qeI3{s%XfLP911(zckW3T)-C70F");
-                        scoresWrite.SelectSingleNode("/TetroScores/Score" + (i + 1)).Attributes["Score"].Value = encryptedHighScores2[i];
-                        scoresWrite.SelectSingleNode("/TetroScores/Score" + (i + 1)).Attributes["Name"].Value = encryptedNames2[i];
+                        scoresWrite.SelectSingleNode("/" + rootElement + "/Score" + (i + 1)).Attributes["Score"].Value = encryptedHighScores2[i];
+                        scoresWrite.SelectSingleNode("/" + rootElement + "/Score" + (i + 1)).Attributes["Name"].Value = encryptedNames2[i];
                     }
-                    scoresWrite.Save("tetroHighScores.xml");
+                    scoresWrite.Save(fileName + ".xml");
                     dummy = 0;
                 }
             }
             catch
             {
                 Console.WriteLine("No high score file was found");
-                Console.WriteLine("Generating tetroHighScores.xml");
+                Console.WriteLine("Generating "+ fileName + ".xml");
                 boolWorkingFileIO = false;
                 XmlDocument create = new XmlDocument();
-                XmlNode rootNode = create.CreateElement("TetroScores");
+                XmlNode rootNode = create.CreateElement(rootElement);
                 create.AppendChild(rootNode);
 
                 for (int i = 1; i < 11; i++)
@@ -175,7 +191,7 @@ namespace Duality.Records
                     userNode.Attributes.Append(nameAttribute);
                     rootNode.AppendChild(userNode);
                 }
-                create.Save("tetroHighScores.xml");
+                create.Save(fileName + ".xml");
             }
         }
     }
