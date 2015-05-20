@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+
 namespace Duality.Records
 {
     /// <summary>
