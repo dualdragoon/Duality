@@ -197,4 +197,3 @@ namespace Duality.Records
         }
     }
 }
-
