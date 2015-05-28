@@ -58,10 +58,10 @@ namespace Duality
 
         public FloatingRectangle(float x, float y, float width, float height)
         {
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
         }
 
         public void Offset(Vector2 amount)
