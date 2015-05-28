@@ -61,7 +61,9 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation.cs" />
     <Compile Include="Circle.cs" />
+    <Compile Include="AnimationPlayer.cs" />
     <Compile Include="ErrorHandler.cs" />
     <Compile Include="MenuButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

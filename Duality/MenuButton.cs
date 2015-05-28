@@ -129,7 +129,7 @@ namespace Duality.MenuSystem
             switch (type)
             {
                 case ButtonType.Rectangle:
-                    if (collision.Contains(mouseState.X, mouseState.Y))
+                    if (Collision.Contains(mouseState.X, mouseState.Y))
                     {
                         button0 = button2;
                         if (mouseState.LeftButton == ButtonState.Pressed)
@@ -145,8 +145,8 @@ namespace Duality.MenuSystem
                     return buttonState;
 
                 case ButtonType.Circle:
-                    circle = new Circle(center, diameter);
-                    if (circle.Intersects(mouseState))
+                    Circle = new Circle(center, diameter);
+                    if (Circle.Intersects(mouseState))
                     {
                         button0 = button2;
                         if (mouseState.LeftButton == ButtonState.Pressed)
@@ -176,7 +176,7 @@ namespace Duality.MenuSystem
             switch (type)
             {
                 case ButtonType.Circle:
-                    circle = new Circle(center, diameter);
+                    Circle = new Circle(center, diameter);
                     return center - new Vector2(diameter / 2);
                 case ButtonType.Rectangle:
                     return new Vector2(Collision.X, Collision.Y);
