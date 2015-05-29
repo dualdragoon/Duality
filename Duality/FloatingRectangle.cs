@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace Duality
 {
+    /// <summary>
+    /// A floating-point based Rectangle.
+    /// </summary>
     public struct FloatingRectangle
     {
         [SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
@@ -15,47 +18,78 @@ namespace Duality
 
         private static FloatingRectangle _empty = default(FloatingRectangle);
 
+        /// <summary>
+        /// Left side of rectangle.
+        /// </summary>
         public float Left
         {
             get { return X; }
         }
 
+        /// <summary>
+        /// Right side of rectangle.
+        /// </summary>
         public float Right
         {
             get { return X + Width; }
         }
 
+        /// <summary>
+        /// Top part of rectangle.
+        /// </summary>
         public float Top
         {
             get { return Y; }
         }
 
+        /// <summary>
+        /// Bottom part of rectangle.
+        /// </summary>
         public float Bottom
         {
             get { return Y + Height; }
         }
 
+        /// <summary>
+        /// Top-Left coordinate of rectangle.
+        /// </summary>
         public Vector2 Location
         {
             get { return new Vector2(X, Y); }
             set { X = value.X; Y = value.Y; }
         }
 
+        /// <summary>
+        /// Center of rectangle.
+        /// </summary>
         public Vector2 Center
         {
             get { return new Vector2(X + (Width / 2), Y + (Height / 2)); }
         }
 
+        /// <summary>
+        /// Creates an empty rectangle.
+        /// </summary>
         public static FloatingRectangle Empty
         {
             get { return FloatingRectangle._empty; }
         }
 
+        /// <summary>
+        /// Checks if the rectangle is empty.
+        /// </summary>
         public bool IsEmpty
         {
             get { return this.Width == 0 && this.Height == 0 && this.X == 0 && this.Y == 0; }
         }
 
+        /// <summary>
+        /// Contsructs a new floating-point based Rectangle.
+        /// </summary>
+        /// <param name="x">X-coordinate of rectangle.</param>
+        /// <param name="y">Y-coordinate of rectangle.</param>
+        /// <param name="width">Width of rectangle.</param>
+        /// <param name="height">Height of rectangle.</param>
         public FloatingRectangle(float x, float y, float width, float height)
         {
             X = x;
@@ -64,30 +98,42 @@ namespace Duality
             Height = height;
         }
 
+        /// <summary>
+        /// Offsets rectangle by specified amount.
+        /// </summary>
+        /// <param name="amount">Amount to offset rectangle.</param>
         public void Offset(Vector2 amount)
         {
             X += amount.X;
             Y += amount.Y;
         }
 
+        /// <summary>
+        /// Offsets rectangle by specified amount.
+        /// </summary>
+        /// <param name="amount">Amount to offset rectangle.</param>
         public void Offset(Point amount)
         {
             X += amount.X;
             Y += amount.Y;
         }
 
+        /// <summary>
+        /// Offsets rectangle by specified values.
+        /// </summary>
+        /// <param name="offsetX">X value to offset rectangle by.</param>
+        /// <param name="offsetY">Y value to offset rectangle by.</param>
         public void Offset(float offsetX, float offsetY)
         {
             X += offsetX;
             Y += offsetY;
         }
 
-        public void Offset(int offsetX, int offsetY)
-        {
-            X += offsetX;
-            Y += offsetY;
-        }
-
+        /// <summary>
+        /// Pushes of the edges of rectangle out by the horizontal and vertical values specified.
+        /// </summary>
+        /// <param name="horizontalAmount">Value to push the sides out by.</param>
+        /// <param name="verticalAmount">Value to push the top and bottom out by.</param>
         public void Inflate(float horizontalAmount, float verticalAmount)
         {
             X -= horizontalAmount;
@@ -96,79 +142,125 @@ namespace Duality
             Height += verticalAmount * 2;
         }
 
-        public void Inflate(int horizontalAmount, int verticalAmount)
-        {
-            X -= horizontalAmount;
-            Y -= verticalAmount;
-            Width += horizontalAmount * 2;
-            Height += verticalAmount * 2;
-        }
-
+        /// <summary>
+        /// Determines whether this Rectangle contains a specified point represented by it's x- and y-coordinates.
+        /// </summary>
+        /// <param name="x">X-coordinate.</param>
+        /// <param name="y">Y-coordinate.</param>
         public bool Contains(float x, float y)
         {
             return Left <= x && x < Right && Top <= y && y < Bottom;
         }
 
-        public bool Contains(int x, int y)
-        {
-            return Left <= x && x < Right && Top <= y && y < Bottom;
-        }
-
+        /// <summary>
+        /// Determine whether this Rectangle contains a specified point.
+        /// </summary>
+        /// <param name="value">The point to evaluate.</param>
         public bool Contains(Vector2 value)
         {
             return Left <= value.X && value.X < Right && Top <= value.Y && value.Y < Bottom;
         }
 
+        /// <summary>
+        /// Determine whether this Rectangle contains a specified point.
+        /// </summary>
+        /// <param name="value">The point to evaluate.</param>
         public bool Contains(Point value)
         {
             return Left <= value.X && value.X < Right && Top <= value.Y && value.Y < Bottom;
         }
 
+        /// <summary>
+        /// Determine whether this Rectangle contains a specified point.
+        /// </summary>
+        /// <param name="value">The point to evaluate.</param>
+        /// <param name="result">[OutAttribute] true if the specified point is contained within the rectangle. False if otherwise.</param>
         public void Contains(ref Vector2 value, out bool result)
         {
             result = (Left <= value.X && value.X < Right && Top <= value.Y && value.Y < Bottom);
         }
 
+        /// <summary>
+        /// Determine whether this Rectangle contains a specified point.
+        /// </summary>
+        /// <param name="value">The point to evaluate.</param>
+        /// <param name="result">[OutAttribute] true if the specified point is contained within the rectangle. False if otherwise.</param>
         public void Contains(ref Point value, out bool result)
         {
             result = (Left <= value.X && value.X < Right && Top <= value.Y && value.Y < Bottom);
         }
 
+        /// <summary>
+        /// Determine whether this Rectangle contains a specified rectangle.
+        /// </summary>
+        /// <param name="value">The rectangle to evaluate.</param>
         public bool Contains(FloatingRectangle value)
         {
             return Left <= value.X && value.Right <= Right && Top <= value.Y && value.Bottom <= Bottom;
         }
 
+        /// <summary>
+        /// Determine whether this Rectangle contains a specified rectangle.
+        /// </summary>
+        /// <param name="value">The rectangle to evaluate.</param>
         public bool Contains(Rectangle value)
         {
             return Left <= value.X && value.Right <= Right && Top <= value.Y && value.Bottom <= Bottom;
         }
 
+        /// <summary>
+        /// Determine whether this Rectangle contains a specified rectangle.
+        /// </summary>
+        /// <param name="value">The rectangle to evaluate.</param>
+        /// <param name="result">[OutAttribute] On exit, is true if this rectangle entirely contains the specified rectangle, or false if not.</param>
         public void Contains(ref FloatingRectangle value, out bool result)
         {
             result = (Left <= value.X && value.Right <= Right && Top <= value.Y && value.Bottom <= Bottom);
         }
 
+        /// <summary>
+        /// Determine whether this Rectangle contains a specified rectangle.
+        /// </summary>
+        /// <param name="value">The rectangle to evaluate.</param>
+        /// <param name="result">[OutAttribute] On exit, is true if this rectangle entirely contains the specified rectangle, or false if not.</param>
         public void Contains(ref Rectangle value, out bool result)
         {
             result = (Left <= value.X && value.Right <= Right && Top <= value.Y && value.Bottom <= Bottom);
         }
 
+        /// <summary>
+        /// Determines whether a specified rectangle intersects with this rectangle.
+        /// </summary>
+        /// <param name="value">The rectangle to evaluate.</param>
         public bool Intersects(FloatingRectangle value)
         {
             return value.Left < Right && Left < value.Right && value.Top < Bottom && Top < value.Bottom;
         }
 
+        /// <summary>
+        /// Determines whether a specified rectangle intersects with this rectangle.
+        /// </summary>
+        /// <param name="value">The rectangle to evaluate.</param>
         public bool Intersects(Rectangle value)
         {
             return value.Left < Right && Left < value.Right && value.Top < Bottom && Top < value.Bottom;
         }
 
+        /// <summary>
+        /// Determines whether a specified rectangle intersects with this rectangle.
+        /// </summary>
+        /// <param name="value">The rectangle to evaluate.</param>
+        /// <param name="result">[OutAttribute] true if the specified rectangle intersects with this one; false otherwise.</param>
         public void Intersects(ref FloatingRectangle value, out bool result)
         {
             result = (value.Left < Right && Left < value.Right && value.Top < Bottom && Top < value.Bottom);
         }
 
+        /// <summary>
+        /// Determines whether a specified rectangle intersects with this rectangle.
+        /// </summary>
+        /// <param name="value">The rectangle to evaluate.</param>
+        /// <param name="result">[OutAttribute] true if the specified rectangle intersects with this one; false otherwise.</param>
         public void Intersects(ref Rectangle value, out bool result)
         {
             result = (value.Left < Right && Left < value.Right && value.Top < Bottom && Top < value.Bottom);

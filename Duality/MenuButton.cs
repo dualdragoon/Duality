@@ -177,7 +177,7 @@ namespace Duality.MenuSystem
             {
                 case ButtonType.Circle:
                     Circle = new Circle(center, diameter);
-                    return center - new Vector2(diameter / 2);
+                    return Circle.Location;
                 case ButtonType.Rectangle:
                     return new Vector2(Collision.X, Collision.Y);
                 default:
