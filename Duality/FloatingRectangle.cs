@@ -84,7 +84,7 @@ namespace Duality
         }
 
         /// <summary>
-        /// Contsructs a new floating-point based Rectangle.
+        /// Constructs a new floating-point based Rectangle.
         /// </summary>
         /// <param name="x">X-coordinate of rectangle.</param>
         /// <param name="y">Y-coordinate of rectangle.</param>
