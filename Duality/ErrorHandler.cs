@@ -15,7 +15,8 @@ namespace Duality
             existingRecordFiles = true;
         private static int
             numOfRecordFiles = 0,
-            identifyRecordNum = 0;
+            identifyRecordNum = 0,
+            dummy;
         private static string
             operatingSystem, computerName, computerManufacturer,
             numOfCPU, numOfLogicCPU, totalRAM,
@@ -60,15 +61,15 @@ namespace Duality
                 }
                 if (errorLevel == 3)
                 {
-                    MessageBox.Show("Critical Error!\nError code: " + errorCode + "\nRefer to " + recordName +
-                        "\nLocation: " + Path.GetFullPath(recordName).ToString(), "Runtime Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     sw.WriteLine(currentDateTime.ToString() + "\tError");
                     sw.WriteLine("   Error Code:\t\t" + errorCode);
                     sw.WriteLine("   Helpful Info:\t" + helpfulInfo);
                     sw.WriteLine("   Details:");
                     sw.WriteLine(errorDetails);
                     sw.WriteLine("");
+                    MessageBox.Show("Critical Error!\nError code: " + errorCode + "\nRefer to " + recordName +
+                        "\nLocation: " + Path.GetFullPath(recordName).ToString(), "Runtime Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Process.GetCurrentProcess().Kill();
                 }
 
