@@ -35,37 +35,52 @@ namespace Duality
         /// <param name="errorDetails">Exception object in catch.</param>
         public static void RecordError(int errorLevel, int errorCode, String helpfulInfo, String errorDetails)
         {
-            if (errorLevel == 1)
+            try
             {
-                sw.WriteLine(currentDateTime.ToString() + "\tINFORMATION");
-                sw.WriteLine("   Error Code:\t\t" + errorCode);
-                sw.WriteLine("   Helpful Info:\t" + helpfulInfo);
-                sw.WriteLine("");
+                fs = new FileStream(@"Error Folder\"+ recordName,
+                                FileMode.Append,
+                                FileAccess.Write);
+                sw = new StreamWriter(fs);
+
+                if (errorLevel == 1)
+                {
+                    sw.WriteLine(currentDateTime.ToString() + "\tINFORMATION");
+                    sw.WriteLine("   Error Code:\t\t" + errorCode);
+                    sw.WriteLine("   Helpful Info:\t" + helpfulInfo);
+                    sw.WriteLine("");
+                }
+                if (errorLevel == 2)
+                {
+                    sw.WriteLine(currentDateTime.ToString() + "\tWarning");
+                    sw.WriteLine("   Error Code:\t\t" + errorCode);
+                    sw.WriteLine("   Helpful Info:\t" + helpfulInfo);
+                    sw.WriteLine("   Details:");
+                    sw.WriteLine(errorDetails);
+                    sw.WriteLine("");
+                }
+                if (errorLevel == 3)
+                {
+                    MessageBox.Show("Critical Error!\nError code: " + errorCode + "\nRefer to " + recordName +
+                        "\nLocation: " + Path.GetFullPath(recordName).ToString(), "Runtime Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    sw.WriteLine(currentDateTime.ToString() + "\tError");
+                    sw.WriteLine("   Error Code:\t\t" + errorCode);
+                    sw.WriteLine("   Helpful Info:\t" + helpfulInfo);
+                    sw.WriteLine("   Details:");
+                    sw.WriteLine(errorDetails);
+                    sw.WriteLine("");
+                    Process.GetCurrentProcess().Kill();
+                }
+
+                sw.Close();
+                fs.Close();
             }
-            if (errorLevel == 2)
+            catch (Exception d)
             {
-                sw.WriteLine(currentDateTime.ToString() + "\tWarning");
-                sw.WriteLine("   Error Code:\t\t" + errorCode);
-                sw.WriteLine("   Helpful Info:\t" + helpfulInfo);
-                sw.WriteLine("   Details:");
-                sw.WriteLine(errorDetails);
-                sw.WriteLine("");
-            }
-            if (errorLevel == 3)
-            {
-                sw.WriteLine(currentDateTime.ToString() + "\tError");
-                sw.WriteLine("   Error Code:\t\t" + errorCode);
-                sw.WriteLine("   Helpful Info:\t" + helpfulInfo);
-                sw.WriteLine("   Details:");
-                sw.WriteLine(errorDetails);
-                sw.WriteLine("");
-            }
-            if (errorLevel == 3)
-            {
-                MessageBox.Show("Critical Error!\nError code: " + errorCode + "\nRefer to " + recordName +
-                    "\nLocation: " + Path.GetFullPath(recordName).ToString(), "Runtime Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Process.GetCurrentProcess().Kill();
+                MessageBox.Show("WARNING:\nUnable to create an new error record!/n" + d.ToString(),
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
         }
 
@@ -116,12 +131,6 @@ namespace Duality
                     Console.WriteLine("Current event was recorded in Error_Record_" + identifyRecordNum + ".txt");
                     recordName = "Error_Record_" + identifyRecordNum + ".txt";
                 }
-
-                //Append to the file
-                fs = new FileStream(@"Error Folder/" + recordName,
-                            FileMode.Append,
-                            FileAccess.Write);
-                sw = new StreamWriter(fs);
             }
             catch (Exception d)
             {
