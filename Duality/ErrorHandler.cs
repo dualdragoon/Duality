@@ -67,14 +67,16 @@ namespace Duality
                     sw.WriteLine("   Details:");
                     sw.WriteLine(errorDetails);
                     sw.WriteLine("");
+                }
+                sw.Close();
+                fs.Close();
+                if (errorLevel == 3)
+                {
                     MessageBox.Show("Critical Error!\nError code: " + errorCode + "\nRefer to " + recordName +
                         "\nLocation: " + Path.GetFullPath(recordName).ToString(), "Runtime Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Process.GetCurrentProcess().Kill();
                 }
-
-                sw.Close();
-                fs.Close();
             }
             catch (Exception d)
             {

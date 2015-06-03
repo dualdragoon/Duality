@@ -60,6 +60,14 @@ namespace Duality
         }
 
         /// <summary>
+        /// Scale of rectangle use for scale in draw with position.
+        /// </summary>
+        public Vector2 Scale
+        {
+            get { return new Vector2(Width, Height); }
+        }
+
+        /// <summary>
         /// Center of rectangle.
         /// </summary>
         public Vector2 Center
