@@ -11,6 +11,7 @@ namespace Duality
     /// <summary>
     /// A floating-point based Rectangle.
     /// </summary>
+    [Serializable]
     public struct FloatingRectangle
     {
         [SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields")]
@@ -60,11 +61,11 @@ namespace Duality
         }
 
         /// <summary>
-        /// Scale of rectangle use for scale in draw with position.
+        /// Rectangle for drawing.
         /// </summary>
-        public Vector2 Scale
+        public Rectangle Draw
         {
-            get { return new Vector2(Width, Height); }
+            get { return new Rectangle((int)X, (int)Y, (int)Width, (int)Height); }
         }
 
         /// <summary>
