@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Duality.Records
 {
-    class Serializer
+    class Serialization
     {
         public static TData DeserializeFromString<TData>(string settings)
         {
