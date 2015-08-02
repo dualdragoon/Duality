@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
+﻿using SharpDX.Toolkit.Graphics;
 
 namespace Duality.Graphics
 {

@@ -175,7 +175,7 @@ namespace Duality.Records
             catch
             {
                 Console.WriteLine("No high score file was found");
-                Console.WriteLine("Generating "+ fileName + ".xml");
+                Console.WriteLine("Generating " + fileName + ".xml");
                 boolWorkingFileIO = false;
                 XmlDocument create = new XmlDocument();
                 XmlNode rootNode = create.CreateElement(rootElement);

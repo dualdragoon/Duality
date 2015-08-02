@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using SharpDX;
+using SharpDX.Toolkit.Input;
 
 namespace Duality
 {
@@ -63,8 +62,7 @@ namespace Duality
 
         public bool Contains(float x, float y)
         {
-            Vector2 v = new Vector2(MathHelper.Clamp(Center.X, x, x),
-                                    MathHelper.Clamp(Center.Y, y, y));
+            Vector2 v = Vector2.Clamp(Center, new Vector2(x, y), new Vector2(x, y));
 
             Vector2 direction = Center - v;
             float distanceSquared = direction.LengthSquared();
@@ -74,8 +72,7 @@ namespace Duality
 
         public bool Contains(Vector2 value)
         {
-            Vector2 v = new Vector2(MathHelper.Clamp(Center.X, value.X, value.X),
-                                    MathHelper.Clamp(Center.Y, value.Y, value.Y));
+            Vector2 v = Vector2.Clamp(Center, value, value);
 
             Vector2 direction = Center - v;
             float distanceSquared = direction.LengthSquared();
@@ -89,8 +86,7 @@ namespace Duality
         /// <returns>True if the circle and rectangle overlap. False otherwise.</returns>
         public bool Intersects(Rectangle value)
         {
-            Vector2 v = new Vector2(MathHelper.Clamp(Center.X, value.Left, value.Right),
-                                    MathHelper.Clamp(Center.Y, value.Top, value.Bottom));
+            Vector2 v = Vector2.Clamp(Center, new Vector2(value.Left, value.Top), new Vector2(value.Right, value.Bottom));
 
             Vector2 direction = Center - v;
             float distanceSquared = direction.LengthSquared();
@@ -102,7 +98,7 @@ namespace Duality
         /// Determines if a circle intersects with a floating-point rectangle.
         /// </summary>
         /// <returns>True if the circle and rectangle overlap. False otherwise.</returns>
-        public bool Intersects(FloatingRectangle value)
+        /*public bool Intersects(FloatingRectangle value)
         {
             Vector2 v = new Vector2(MathHelper.Clamp(Center.X, value.Left, value.Right),
                                     MathHelper.Clamp(Center.Y, value.Top, value.Bottom));
@@ -111,16 +107,15 @@ namespace Duality
             float distanceSquared = direction.LengthSquared();
 
             return ((distanceSquared > 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
-        }
+        }*/
 
         /// <summary>
         /// Determines if a circle contains the mouse.
         /// </summary>
         /// <returns>True if the mouse is within the circle. False otherwise</returns>
-        public bool Intersects(MouseState mouse)
+        public bool Intersects(MouseState mouse, float windowWidth, float windowHeight)
         {
-            Vector2 v = new Vector2(MathHelper.Clamp(Center.X, mouse.X, mouse.X),
-                                    MathHelper.Clamp(Center.Y, mouse.Y, mouse.Y));
+            Vector2 v = Vector2.Clamp(Center, new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight), new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight));
 
             Vector2 direction = Center - v;
             float distanceSquared = direction.LengthSquared();

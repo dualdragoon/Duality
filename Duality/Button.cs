@@ -1,17 +1,17 @@
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using SharpDX;
+using SharpDX.Toolkit.Input;
+using SharpDX.Toolkit.Graphics;
 
-namespace Duality.MenuSystem
+namespace Duality.Interaction
 {
-    public struct MenuButton
+    public struct Button
     {
         private enum ButtonType { Rectangle, Circle };
 
         private bool buttonState { get; set; }
         private float diameter { get; set; }
+        private float windowWidth { get; set; }
+        private float windowHeight { get; set; }
         private int bNum { get; set; }
         private ButtonType type { get; set; }
         private MouseState mouseState { get; set; }
@@ -90,7 +90,7 @@ namespace Duality.MenuSystem
         /// <param name="mouse">Mouse state for detection.</param>
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
-        public MenuButton(Vector2 position, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov)
+        public Button(Vector2 position, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, float windowWidth, float windowHeight)
             : this()
         {
             center = Vector2.Zero;
@@ -100,6 +100,8 @@ namespace Duality.MenuSystem
             button2 = buttonHov;
             bNum = buttonNum;
             type = ButtonType.Rectangle;
+            this.windowWidth = windowWidth;
+            this.windowHeight = windowHeight;
         }
 
         /// <summary>
@@ -111,7 +113,7 @@ namespace Duality.MenuSystem
         /// <param name="mouse">Mouse state for detection.</param>
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
-        public MenuButton(Vector2 centerPosition, float circleDiameter, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov)
+        public Button(Vector2 centerPosition, float circleDiameter, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, float windowWidth, float windowHeight)
             : this()
         {
             collision = Rectangle.Empty;
@@ -122,6 +124,8 @@ namespace Duality.MenuSystem
             button2 = buttonHov;
             bNum = buttonNum;
             type = ButtonType.Circle;
+            this.windowWidth = windowWidth;
+            this.windowHeight = windowHeight;
         }
 
         public bool getButtonState()
@@ -129,10 +133,10 @@ namespace Duality.MenuSystem
             switch (type)
             {
                 case ButtonType.Rectangle:
-                    if (Collision.Contains(mouseState.X, mouseState.Y))
+                    if (Collision.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight))
                     {
                         button0 = button2;
-                        if (mouseState.LeftButton == ButtonState.Pressed)
+                        if (mouseState.LeftButton.Pressed)
                         {
                             buttonState = true;
                         }
@@ -146,10 +150,10 @@ namespace Duality.MenuSystem
 
                 case ButtonType.Circle:
                     Circle = new Circle(center, diameter);
-                    if (Circle.Intersects(mouseState))
+                    if (Circle.Intersects(mouseState, windowWidth, windowHeight))
                     {
                         button0 = button2;
-                        if (mouseState.LeftButton == ButtonState.Pressed)
+                        if (mouseState.LeftButton.Pressed)
                         {
                             buttonState = true;
                         }
