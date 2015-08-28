@@ -15,8 +15,7 @@ namespace Duality
             existingRecordFiles = true;
         private static int
             numOfRecordFiles = 0,
-            identifyRecordNum = 0,
-            dummy;
+            identifyRecordNum = 0;
         private static string
             operatingSystem, computerName, computerManufacturer,
             numOfCPU, numOfLogicCPU, totalRAM,

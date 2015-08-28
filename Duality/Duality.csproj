@@ -96,6 +96,7 @@
     <Compile Include="Animation.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="AnimationPlayer.cs" />
+    <Compile Include="Ellipse.cs" />
     <Compile Include="ErrorHandler.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

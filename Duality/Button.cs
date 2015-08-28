@@ -1,3 +1,4 @@
+using System;
 using SharpDX;
 using SharpDX.Toolkit.Input;
 using SharpDX.Toolkit.Graphics;
@@ -7,15 +8,29 @@ namespace Duality.Interaction
     public struct Button
     {
         private enum ButtonType { Rectangle, Circle };
-
-        private bool buttonState { get; set; }
+        
         private float diameter { get; set; }
         private float windowWidth { get; set; }
         private float windowHeight { get; set; }
-        private int bNum { get; set; }
         private ButtonType type { get; set; }
-        private MouseState mouseState { get; set; }
         private Texture2D button0 { get; set; }
+
+        private event EventHandler buttonPressed;
+
+        public event EventHandler ButtonPressed
+        {
+            add { buttonPressed += value; }
+            remove { buttonPressed -= value; }
+        }
+
+        private int bNum;
+
+        public int ButtonNum
+        {
+            get { return bNum; }
+        }
+
+        private MouseState mouseState;
 
         /// <summary>
         /// Backing store for Collision.
@@ -128,8 +143,9 @@ namespace Duality.Interaction
             this.windowHeight = windowHeight;
         }
 
-        public bool getButtonState()
+        public void Update(MouseState mouse)
         {
+            mouseState = mouse;
             switch (type)
             {
                 case ButtonType.Rectangle:
@@ -138,15 +154,14 @@ namespace Duality.Interaction
                         button0 = button2;
                         if (mouseState.LeftButton.Pressed)
                         {
-                            buttonState = true;
+                            OnButtonPressed();
                         }
                     }
                     else
                     {
                         button0 = button1;
-                        buttonState = false;
                     }
-                    return buttonState;
+                    break;
 
                 case ButtonType.Circle:
                     Circle = new Circle(center, diameter);
@@ -155,24 +170,18 @@ namespace Duality.Interaction
                         button0 = button2;
                         if (mouseState.LeftButton.Pressed)
                         {
-                            buttonState = true;
+                            OnButtonPressed();
                         }
                     }
                     else
                     {
                         button0 = button1;
-                        buttonState = false;
                     }
-                    return buttonState;
+                    break;
 
                 default:
-                    return buttonState;
+                    break;
             }
-        }
-
-        public int getButtonNum()
-        {
-            return bNum;
         }
 
         public Vector2 getPosition()
@@ -192,6 +201,14 @@ namespace Duality.Interaction
         public Texture2D getTexture()
         {
             return button0;
+        }
+
+        private void OnButtonPressed()
+        {
+            if (buttonPressed != null)
+            {
+                buttonPressed(this, EventArgs.Empty);
+            }
         }
     }
 }

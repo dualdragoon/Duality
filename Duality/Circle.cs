@@ -30,7 +30,7 @@ namespace Duality
 
         public static Circle Empty
         {
-            get { return Circle._empty; }
+            get { return _empty; }
         }
 
         public bool IsEmpty
@@ -84,9 +84,9 @@ namespace Duality
         /// Determines if a circle intersects a rectangle.
         /// </summary>
         /// <returns>True if the circle and rectangle overlap. False otherwise.</returns>
-        public bool Intersects(Rectangle value)
+        public bool Intersects(RectangleF value)
         {
-            Vector2 v = Vector2.Clamp(Center, new Vector2(value.Left, value.Top), new Vector2(value.Right, value.Bottom));
+            Vector2 v = Vector2.Clamp(Center, value.TopLeft, value.BottomRight);
 
             Vector2 direction = Center - v;
             float distanceSquared = direction.LengthSquared();
@@ -116,7 +116,7 @@ namespace Duality
         public bool Intersects(MouseState mouse, float windowWidth, float windowHeight)
         {
             Vector2 v = Vector2.Clamp(Center, new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight), new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight));
-
+            
             Vector2 direction = Center - v;
             float distanceSquared = direction.LengthSquared();
 
