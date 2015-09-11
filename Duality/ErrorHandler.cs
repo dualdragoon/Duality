@@ -78,6 +78,8 @@ namespace Duality
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Process.GetCurrentProcess().Kill();
                 }
+
+                EmailForm form = new EmailForm(CheckInternetConnection(), errorDetails);
             }
             catch (Exception d)
             {
