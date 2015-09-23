@@ -79,11 +79,11 @@ namespace Duality
                     Process.GetCurrentProcess().Kill();
                 }
 
-                EmailForm form = new EmailForm(CheckInternetConnection(), errorDetails);
+                Application.Run(new EmailForm(CheckInternetConnection(), errorDetails));
             }
             catch (Exception d)
             {
-                MessageBox.Show("WARNING:\nUnable to create an new error record!/n" + d.ToString(),
+                MessageBox.Show("WARNING:\nUnable to create an new error record!\n" + d.ToString(),
                     "Warning",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
