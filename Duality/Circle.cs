@@ -62,7 +62,7 @@ namespace Duality
 
         public bool Contains(float x, float y)
         {
-            Vector2 v = Vector2.Clamp(Center, new Vector2(x, y), new Vector2(x, y));
+            Vector2 v = Vector2.Clamp(center, new Vector2(x, y), new Vector2(x, y));
 
             Vector2 direction = Center - v;
             float distanceSquared = direction.LengthSquared();
@@ -74,7 +74,7 @@ namespace Duality
         {
             Vector2 v = Vector2.Clamp(Center, value, value);
 
-            Vector2 direction = Center - v;
+            Vector2 direction = center - v;
             float distanceSquared = direction.LengthSquared();
 
             return ((distanceSquared > 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
@@ -88,7 +88,7 @@ namespace Duality
         {
             Vector2 v = Vector2.Clamp(Center, value.TopLeft, value.BottomRight);
 
-            Vector2 direction = Center - v;
+            Vector2 direction = center - v;
             float distanceSquared = direction.LengthSquared();
 
             return ((distanceSquared > 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
@@ -113,7 +113,7 @@ namespace Duality
         /// Determines if a circle contains the mouse.
         /// </summary>
         /// <returns>True if the mouse is within the circle. False otherwise</returns>
-        public bool Intersects(MouseState mouse, float windowWidth, float windowHeight)
+        /*public bool Intersects(MouseState mouse, float windowWidth, float windowHeight)
         {
             Vector2 v = Vector2.Clamp(Center, new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight), new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight));
             
@@ -121,6 +121,6 @@ namespace Duality
             float distanceSquared = direction.LengthSquared();
 
             return ((distanceSquared > 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
-        }
+        }*/
     }
 }

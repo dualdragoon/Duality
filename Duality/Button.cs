@@ -23,6 +23,30 @@ namespace Duality.Interaction
             remove { buttonPressed -= value; }
         }
 
+        public Vector2 Position
+        {
+            get
+            {
+                switch (type)
+                {
+                    case ButtonType.Circle:
+                        Circle = new Circle(center, diameter);
+                        return Circle.Location;
+                    case ButtonType.Rectangle:
+                        return Collision.Location;
+                    case ButtonType.Ellipse:
+                        return Ellipse.Location;
+                    default:
+                        return Vector2.Zero;
+                }
+            }
+        }
+
+        public Texture2D Texture
+        {
+            get { return button0; }
+        }
+
         private int bNum;
 
         public int ButtonNum
@@ -206,7 +230,7 @@ namespace Duality.Interaction
 
                 case ButtonType.Circle:
                     Circle = new Circle(center, diameter);
-                    if (Circle.Intersects(mouseState, windowWidth, windowHeight))
+                    if (Circle.Contains(new Vector2(mouseState.X * windowWidth, mouseState.Y * windowHeight)))
                     {
                         button0 = button2;
                         if (mouseState.LeftButton.Pressed)
@@ -221,7 +245,8 @@ namespace Duality.Interaction
                     break;
 
                 case ButtonType.Ellipse:
-                    if (Ellipse.Intersects(mouseState, windowWidth, windowHeight))
+                    Ellipse = new Ellipse(button1.Width, button1.Height, center);
+                    if (Ellipse.Contains(new Vector2(mouseState.X * windowWidth, mouseState.Y * windowHeight)))
                     {
                         button0 = button2;
                         if (mouseState.LeftButton.Pressed)
@@ -238,27 +263,6 @@ namespace Duality.Interaction
                 default:
                     break;
             }
-        }
-
-        public Vector2 getPosition()
-        {
-            switch (type)
-            {
-                case ButtonType.Circle:
-                    Circle = new Circle(center, diameter);
-                    return Circle.Location;
-                case ButtonType.Rectangle:
-                    return Collision.Location;
-                case ButtonType.Ellipse:
-                    return Ellipse.Location;
-                default:
-                    return Vector2.Zero;
-            }
-        }
-
-        public Texture2D getTexture()
-        {
-            return button0;
         }
 
         private void OnButtonPressed()

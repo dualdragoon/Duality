@@ -143,9 +143,10 @@ namespace Duality
             return ((posDistanceSquared > 0 && negDistanceSquared > 0) && ((float)Math.Sqrt(posDistanceSquared) + (float)Math.Sqrt(negDistanceSquared) <= majorAxis));
         }
 
-        public bool Intersects(MouseState mouse, float windowWidth, float windowHeight)
+        //Commented out because for some reason it doesn't work.
+        /*public bool Intersects(MouseState mouse, float windowWidth, float windowHeight)
         {
-            Vector2 v = Vector2.Clamp(Center, new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight), new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight));
+            Vector2 v = Vector2.Clamp(center, new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight), new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight));
 
             Vector2 posDirection = posFoci - v;
             float posDistanceSquared = posDirection.LengthSquared();
@@ -154,6 +155,6 @@ namespace Duality
             float negDistanceSquared = negDirection.LengthSquared();
 
             return ((posDistanceSquared > 0 && negDistanceSquared > 0) && ((float)Math.Sqrt(posDistanceSquared) + (float)Math.Sqrt(negDistanceSquared) <= majorAxis));
-        }
+        }*/
     }
 }

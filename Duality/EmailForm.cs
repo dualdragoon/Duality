@@ -50,7 +50,7 @@ namespace Duality
         {
             MailMessage mail = new MailMessage("Duality@DualityEngine.org", "hosleraaron06@gmail.com");
             SmtpClient client = new SmtpClient();
-            client.Credentials = new NetworkCredential("DualityErrorEmail@gmail.com", "treakle124");
+            client.Credentials = new NetworkCredential("hosleraaron06@gmail.com", "dragonslayer123");
             client.EnableSsl = true;
             client.Port = 25;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
