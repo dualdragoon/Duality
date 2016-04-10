@@ -9,10 +9,11 @@ namespace Duality.Interaction
     {
         private enum ButtonType { Rectangle, Circle, Ellipse };
 
+        private bool grabbed { get; set; }
+        private ButtonType type { get; set; }
         private float diameter { get; set; }
         private float windowWidth { get; set; }
         private float windowHeight { get; set; }
-        private ButtonType type { get; set; }
         private Texture2D button0 { get; set; }
 
         private event EventHandler buttonPressed;
@@ -40,6 +41,11 @@ namespace Duality.Interaction
                         return Vector2.Zero;
                 }
             }
+        }
+
+        public bool Grabbed
+        {
+            get { return grabbed; }
         }
 
         public Texture2D Texture
@@ -237,6 +243,7 @@ namespace Duality.Interaction
                         {
                             OnButtonPressed();
                         }
+                        grabbed = mouseState.LeftButton.Down;
                     }
                     else
                     {
