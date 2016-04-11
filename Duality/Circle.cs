@@ -67,7 +67,7 @@ namespace Duality
             Vector2 direction = Center - v;
             float distanceSquared = direction.LengthSquared();
 
-            return ((distanceSquared > 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
+            return ((distanceSquared >= 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
         }
 
         public bool Contains(Vector2 value)
@@ -77,7 +77,7 @@ namespace Duality
             Vector2 direction = center - v;
             float distanceSquared = direction.LengthSquared();
 
-            return ((distanceSquared > 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
+            return ((distanceSquared >= 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Duality
             Vector2 direction = center - v;
             float distanceSquared = direction.LengthSquared();
 
-            return ((distanceSquared > 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
+            return ((distanceSquared >= 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
         }
 
         /// <summary>

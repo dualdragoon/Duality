@@ -179,8 +179,8 @@ namespace Duality.Interaction
         {
             collision = RectangleF.Empty;
             center = centerPosition;
-            circle = new Circle(center, diameter);
             diameter = circleDiameter;
+            circle = new Circle(center, diameter);
             mouseState = mouse;
             button1 = buttonNorm;
             button2 = buttonHov;
