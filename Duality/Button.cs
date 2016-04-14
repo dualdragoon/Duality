@@ -9,19 +9,29 @@ namespace Duality.Interaction
     {
         private enum ButtonType { Rectangle, Circle, Ellipse };
 
-        private bool grabbed { get; set; }
+        private bool leftHeld { get; set; }
+        private bool rightHeld { get; set; }
+        private bool clickable { get; set; }
         private ButtonType type { get; set; }
         private float diameter { get; set; }
         private float windowWidth { get; set; }
         private float windowHeight { get; set; }
         private Texture2D button0 { get; set; }
 
-        private event EventHandler buttonPressed;
+        private event EventHandler leftClicked;
 
-        public event EventHandler ButtonPressed
+        public event EventHandler LeftClicked
         {
-            add { buttonPressed += value; }
-            remove { buttonPressed -= value; }
+            add { leftClicked += value; }
+            remove { leftClicked -= value; }
+        }
+
+        private event EventHandler rightClicked;
+
+        public event EventHandler RightClicked
+        {
+            add { rightClicked += value; }
+            remove { rightClicked -= value; }
         }
 
         public Vector2 Position
@@ -43,9 +53,25 @@ namespace Duality.Interaction
             }
         }
 
-        public bool Grabbed
+        public bool LeftHeld
         {
-            get { return grabbed; }
+            get { return leftHeld; }
+        }
+
+        public bool RightHeld
+        {
+            get { return rightHeld; }
+        }
+        
+        public bool Clickable
+        {
+            get { return clickable; }
+            set
+            { 
+                clickable = value;
+                leftHeld = false;
+                rightHeld = false;
+            }
         }
 
         public Texture2D Texture
@@ -220,13 +246,19 @@ namespace Duality.Interaction
             switch (type)
             {
                 case ButtonType.Rectangle:
-                    if (Collision.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight))
+                    if (Collision.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight) && clickable)
                     {
                         button0 = button2;
                         if (mouseState.LeftButton.Pressed)
                         {
-                            OnButtonPressed();
+                            OnLeftClicked();
                         }
+                        else if (mouseState.RightButton.Pressed)
+                        {
+                            OnRightClicked();
+                        }
+                        leftHeld = mouseState.LeftButton.Down;
+                        rightHeld = mouseState.RightButton.Down;
                     }
                     else
                     {
@@ -236,14 +268,19 @@ namespace Duality.Interaction
 
                 case ButtonType.Circle:
                     Circle = new Circle(center, diameter);
-                    if (Circle.Contains(new Vector2(mouseState.X * windowWidth, mouseState.Y * windowHeight)))
+                    if (Circle.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight) && clickable)
                     {
                         button0 = button2;
                         if (mouseState.LeftButton.Pressed)
                         {
-                            OnButtonPressed();
+                            OnLeftClicked();
                         }
-                        grabbed = mouseState.LeftButton.Down;
+                        else if (mouseState.RightButton.Pressed)
+                        {
+                            OnRightClicked();
+                        }
+                        leftHeld = mouseState.LeftButton.Down;
+                        rightHeld = mouseState.RightButton.Down;
                     }
                     else
                     {
@@ -253,13 +290,19 @@ namespace Duality.Interaction
 
                 case ButtonType.Ellipse:
                     Ellipse = new Ellipse(button1.Width, button1.Height, center);
-                    if (Ellipse.Contains(new Vector2(mouseState.X * windowWidth, mouseState.Y * windowHeight)))
+                    if (Ellipse.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight) && clickable)
                     {
                         button0 = button2;
                         if (mouseState.LeftButton.Pressed)
                         {
-                            OnButtonPressed();
+                            OnLeftClicked();
                         }
+                        else if (mouseState.RightButton.Pressed)
+                        {
+                            OnRightClicked();
+                        }
+                        leftHeld = mouseState.LeftButton.Down;
+                        rightHeld = mouseState.RightButton.Down;
                     }
                     else
                     {
@@ -272,12 +315,14 @@ namespace Duality.Interaction
             }
         }
 
-        private void OnButtonPressed()
+        private void OnLeftClicked()
         {
-            if (buttonPressed != null)
-            {
-                buttonPressed(this, EventArgs.Empty);
-            }
+            if (leftClicked != null) leftClicked(this, EventArgs.Empty);
+        }
+
+        private void OnRightClicked()
+        {
+            if (rightClicked != null) rightClicked(this, EventArgs.Empty);
         }
     }
 }
