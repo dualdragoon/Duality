@@ -175,7 +175,7 @@ namespace Duality.Interaction
         /// <param name="mouse">Mouse state for detection.</param>
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
-        public Button(Vector2 position, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, float windowWidth, float windowHeight)
+        public Button(Vector2 position, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable, float windowWidth, float windowHeight)
             : this()
         {
             center = Vector2.Zero;
@@ -185,6 +185,7 @@ namespace Duality.Interaction
             button2 = buttonHov;
             bNum = buttonNum;
             type = ButtonType.Rectangle;
+            this.clickable = clickable;
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
         }
@@ -200,7 +201,7 @@ namespace Duality.Interaction
         /// <param name="buttonHov">Hovered button state.</param>
         /// <param name="windowWidth">Width of window.</param>
         /// <param name="windowHeight">Height of window.</param>
-        public Button(Vector2 centerPosition, float circleDiameter, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, float windowWidth, float windowHeight)
+        public Button(Vector2 centerPosition, float circleDiameter, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable, float windowWidth, float windowHeight)
             : this()
         {
             collision = RectangleF.Empty;
@@ -212,6 +213,7 @@ namespace Duality.Interaction
             button2 = buttonHov;
             bNum = buttonNum;
             type = ButtonType.Circle;
+            this.clickable = clickable;
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
         }
@@ -226,7 +228,7 @@ namespace Duality.Interaction
         /// <param name="buttonHov">Hovered button state.</param>
         /// <param name="windowWidth">Width of window.</param>
         /// <param name="windowHeight">Height of window.</param>
-        public Button(Vector2 centerPosition, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, float windowWidth, float windowHeight)
+        public Button(Vector2 centerPosition, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable, float windowWidth, float windowHeight)
             : this()
         {
             collision = RectangleF.Empty;
@@ -236,6 +238,7 @@ namespace Duality.Interaction
             button2 = buttonHov;
             bNum = buttonNum;
             type = ButtonType.Ellipse;
+            this.clickable = clickable;
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
         }
