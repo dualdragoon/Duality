@@ -5,18 +5,18 @@ using SharpDX.Toolkit.Graphics;
 
 namespace Duality.Interaction
 {
-    public struct Button
-    {
-        private enum ButtonType { Rectangle, Circle, Ellipse };
+    public enum ButtonType { Rectangle, Circle, Ellipse };
 
-        private bool leftHeld { get; set; }
-        private bool rightHeld { get; set; }
-        private bool clickable { get; set; }
-        private ButtonType type { get; set; }
-        private float diameter { get; set; }
-        private float windowWidth { get; set; }
-        private float windowHeight { get; set; }
-        private Texture2D button0 { get; set; }
+    public class Button
+    {
+        private bool leftHeld;
+        private bool rightHeld;
+        private bool clickable;
+        private ButtonType type;
+        private float diameter;
+        private float windowWidth;
+        private float windowHeight;
+        private Texture2D button0;
 
         private event EventHandler leftClicked;
 
@@ -176,11 +176,11 @@ namespace Duality.Interaction
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
         public Button(Vector2 position, int width, int height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable, float windowWidth, float windowHeight)
-            : this()
         {
             center = Vector2.Zero;
             collision = new RectangleF((int)position.X, (int)position.Y, width, height);
             mouseState = mouse;
+            button0 = buttonNorm;
             button1 = buttonNorm;
             button2 = buttonHov;
             bNum = buttonNum;
@@ -202,13 +202,13 @@ namespace Duality.Interaction
         /// <param name="windowWidth">Width of window.</param>
         /// <param name="windowHeight">Height of window.</param>
         public Button(Vector2 centerPosition, float circleDiameter, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable, float windowWidth, float windowHeight)
-            : this()
         {
             collision = RectangleF.Empty;
             center = centerPosition;
             diameter = circleDiameter;
             circle = new Circle(center, diameter);
             mouseState = mouse;
+            button0 = buttonNorm;
             button1 = buttonNorm;
             button2 = buttonHov;
             bNum = buttonNum;
@@ -229,11 +229,11 @@ namespace Duality.Interaction
         /// <param name="windowWidth">Width of window.</param>
         /// <param name="windowHeight">Height of window.</param>
         public Button(Vector2 centerPosition, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable, float windowWidth, float windowHeight)
-            : this()
         {
             collision = RectangleF.Empty;
             center = centerPosition;
             mouseState = mouse;
+            button0 = buttonNorm;
             button1 = buttonNorm;
             button2 = buttonHov;
             bNum = buttonNum;

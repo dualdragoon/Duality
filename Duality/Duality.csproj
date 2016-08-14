@@ -97,6 +97,7 @@
     <Compile Include="Animation.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="AnimationPlayer.cs" />
+    <Compile Include="Curve.cs" />
     <Compile Include="Ellipse.cs" />
     <Compile Include="EmailForm.cs">
       <SubType>Form</SubType>
@@ -110,7 +111,6 @@
     <Compile Include="ScoreBoard.cs" />
     <Compile Include="Serialization.cs" />
     <Compile Include="StringCipher.cs" />
-    <Compile Include="FloatingRectangle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

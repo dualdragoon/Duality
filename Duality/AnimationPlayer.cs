@@ -155,7 +155,7 @@ namespace Duality.Graphics
         /// <summary>
         /// Advances the time position and draws the current frame of the animation.
         /// </summary>
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, FloatingRectangle position, SpriteEffects spriteEffects)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, RectangleF position, SpriteEffects spriteEffects)
         {
             if (Animation == null)
                 throw new NotSupportedException("No animation is currently playing.");
@@ -181,7 +181,7 @@ namespace Duality.Graphics
             Rectangle source = new Rectangle(FrameIndex * Animation.Texture.Height, 0, Animation.FrameWidth, Animation.FrameHeight);
 
             // Draw the current frame.
-            spriteBatch.Draw(Animation.Texture, new Vector2(position.X, position.Y), source, Color.White, 0.0f, Origin, new Vector2(Animation.Texture.Width / position.Width, Animation.Texture.Height / position.Height), spriteEffects, 0.0f);
+            spriteBatch.Draw(Animation.Texture, position, source, Color.White, 0.0f, Origin, spriteEffects, 0.0f);
         }
     }
 }

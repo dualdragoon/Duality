@@ -1,6 +1,5 @@
 ﻿using System;
 using SharpDX;
-using SharpDX.Toolkit.Input;
 
 namespace Duality
 {
@@ -23,12 +22,21 @@ namespace Duality
         public Vector2 Center
         {
             get { return center; }
-            set { center = value; }
+            set
+            {
+                center = value;
+                Build();
+            }
         }
 
         public Vector2 Location
         {
             get { return new Vector2(center.X - (width / 2), center.Y - (height / 2)); }
+        }
+
+        public RectangleF RectangleF
+        {
+            get { return new RectangleF(Location.X, Location.Y, width, height); }
         }
 
         public static Ellipse Empty
@@ -55,6 +63,36 @@ namespace Duality
 
             direction = (width < height) ? EllipseDirection.Vertical : EllipseDirection.Horizontal;
 
+            switch (direction)
+            {
+                case EllipseDirection.Vertical:
+                    majorAxis = height;
+                    minorAxis = width;
+                    fociDistance = (float)Math.Sqrt(Math.Pow(height / 2, 2) - Math.Pow((width / 2), 2));
+                    posFoci = center + new Vector2(0, fociDistance);
+                    negFoci = center - new Vector2(0, fociDistance);
+                    break;
+
+                case EllipseDirection.Horizontal:
+                    majorAxis = width;
+                    minorAxis = height;
+                    fociDistance = (float)Math.Sqrt(Math.Pow(width / 2, 2) - Math.Pow((height / 2), 2));
+                    posFoci = center + new Vector2(fociDistance, 0);
+                    negFoci = center - new Vector2(fociDistance, 0);
+                    break;
+
+                default:
+                    majorAxis = 0;
+                    minorAxis = 0;
+                    fociDistance = 0;
+                    posFoci = Vector2.Zero;
+                    negFoci = Vector2.Zero;
+                    break;
+            }
+        }
+
+        private void Build()
+        {
             switch (direction)
             {
                 case EllipseDirection.Vertical:
