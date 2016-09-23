@@ -9,13 +9,9 @@ namespace Duality.Interaction
 
     public class Button
     {
-        private bool leftHeld;
-        private bool rightHeld;
-        private bool clickable;
+        private bool leftHeld, rightHeld, clickable;
         private ButtonType type;
-        private float diameter;
-        private float windowWidth;
-        private float windowHeight;
+        private float diameter, windowWidth, windowHeight;
         private Texture2D button0;
 
         private event EventHandler leftClicked;
