@@ -15,18 +15,30 @@ namespace Duality.Records
         string fileName, rootElement;
         bool boolWorkingFileIO = true;
         XmlDocument scoresWrite, scoresRead;
-
+        
+        /// <summary>
+        /// Recorded highscores.
+        /// </summary>
         public string[] HighScores
         {
             get { return textHighScores1; }
         }
 
+        /// <summary>
+        /// Names related to scores.
+        /// </summary>
         public string[] TopNames
         {
             get { return textNames1; }
         }
-
-        public int getNumOneScore() { return numOneScore; }
+        
+        /// <summary>
+        /// Top recorded score.
+        /// </summary>
+        public int TopScore
+        {
+            get { return numOneScore; }
+        }
 
         /// <summary>
         /// Holds high score records.

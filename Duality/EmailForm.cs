@@ -7,6 +7,12 @@ namespace Duality
     public partial class EmailForm : Form
     {
         string details, user = StringCipher.Decrypt("WXl7/1dqjhWN8KOkkb46Fs9J6WAYjXOth8Rj+J1XjRE=", "agfdegfagagsdfgsfdyjtjk,yiu"), pass = StringCipher.Decrypt("xr382tkMPJjFu+l1SBZ3qg==", "kajufhlgiufefbgaiugroirhen9p8gh2ase");
+
+        /// <summary>
+        /// Constructs email form.
+        /// </summary>
+        /// <param name="internetUp">If internet is functional or not.</param>
+        /// <param name="errorDetails">Details of error that was thrown.</param>
         public EmailForm(bool internetUp, string errorDetails)
         {
             InitializeComponent();

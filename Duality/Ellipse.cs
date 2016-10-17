@@ -29,21 +29,33 @@ namespace Duality
             }
         }
 
+        /// <summary>
+        /// Top-Left location of this ellipse.
+        /// </summary>
         public Vector2 Location
         {
             get { return new Vector2(center.X - (width / 2), center.Y - (height / 2)); }
         }
 
+        /// <summary>
+        /// Best-fit rectangle of this ellipse.
+        /// </summary>
         public RectangleF RectangleF
         {
             get { return new RectangleF(Location.X, Location.Y, width, height); }
         }
 
+        /// <summary>
+        /// Empty ellipse.
+        /// </summary>
         public static Ellipse Empty
         {
             get { return _empty; }
         }
 
+        /// <summary>
+        /// Tells whether this ellipse is empty or not.
+        /// </summary>
         public bool IsEmpty
         {
             get { return Center == Vector2.Zero && width == 0 && height == 0; }
@@ -121,6 +133,10 @@ namespace Duality
             }
         }
 
+        /// <summary>
+        /// Moves this ellipse.
+        /// </summary>
+        /// <param name="amount">Vector2 with x and y values to move this ellipse by.</param>
         public void Offset(Vector2 amount)
         {
             Center += amount;
@@ -142,6 +158,12 @@ namespace Duality
             }
         }
 
+        /// <summary>
+        /// Determines whether this ellipse contains a specified point.
+        /// </summary>
+        /// <param name="x">X value of point to check.</param>
+        /// <param name="y">Y value of point to check.</param>
+        /// <returns></returns>
         public bool Contains(float x, float y)
         {
             Vector2 v = Vector2.Clamp(center, new Vector2(x, y), new Vector2(x, y));
@@ -155,6 +177,11 @@ namespace Duality
             return ((posDistanceSquared > 0 && negDistanceSquared > 0) && ((float)Math.Sqrt(posDistanceSquared) + (float)Math.Sqrt(negDistanceSquared) <= majorAxis));
         }
 
+        /// <summary>
+        /// Determines whether this ellipse contains a specified point.
+        /// </summary>
+        /// <param name="value">Vector2 point to check.</param>
+        /// <returns></returns>
         public bool Contains(Vector2 value)
         {
             Vector2 v = Vector2.Clamp(center, value, value);
@@ -168,6 +195,11 @@ namespace Duality
             return ((posDistanceSquared > 0 && negDistanceSquared > 0) && ((float)Math.Sqrt(posDistanceSquared) + (float)Math.Sqrt(negDistanceSquared) <= majorAxis));
         }
 
+        /// <summary>
+        /// Determines whether this ellipse intersects a rectangle.
+        /// </summary>
+        /// <param name="value">Rectangle to check intersection.</param>
+        /// <returns></returns>
         public bool Intersects(RectangleF value)
         {
             Vector2 v = Vector2.Clamp(center, value.TopLeft, value.BottomRight);
@@ -180,19 +212,5 @@ namespace Duality
 
             return ((posDistanceSquared > 0 && negDistanceSquared > 0) && ((float)Math.Sqrt(posDistanceSquared) + (float)Math.Sqrt(negDistanceSquared) <= majorAxis));
         }
-
-        //Commented out because for some reason it doesn't work.
-        /*public bool Intersects(MouseState mouse, float windowWidth, float windowHeight)
-        {
-            Vector2 v = Vector2.Clamp(center, new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight), new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight));
-
-            Vector2 posDirection = posFoci - v;
-            float posDistanceSquared = posDirection.LengthSquared();
-
-            Vector2 negDirection = posFoci - v;
-            float negDistanceSquared = negDirection.LengthSquared();
-
-            return ((posDistanceSquared > 0 && negDistanceSquared > 0) && ((float)Math.Sqrt(posDistanceSquared) + (float)Math.Sqrt(negDistanceSquared) <= majorAxis));
-        }*/
     }
 }

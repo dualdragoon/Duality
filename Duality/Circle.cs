@@ -11,10 +11,13 @@ namespace Duality
 
         private static Circle _empty = default(Circle);
 
+        /// <summary>
+        /// Diameter of this circle.
+        /// </summary>
         public float Diameter;
 
         /// <summary>
-        /// Center position of the circle.
+        /// Center position of this circle.
         /// </summary>
         public Vector2 Center
         {
@@ -22,16 +25,25 @@ namespace Duality
             set { center = value; }
         }
 
+        /// <summary>
+        /// Top-Left location of this circle.
+        /// </summary>
         public Vector2 Location
         {
             get { return new Vector2(Center.X - (Diameter / 2), Center.Y - (Diameter / 2)); }
         }
 
+        /// <summary>
+        /// Empty circle.
+        /// </summary>
         public static Circle Empty
         {
             get { return _empty; }
         }
 
+        /// <summary>
+        /// Tells whether this circle is empty or not.
+        /// </summary>
         public bool IsEmpty
         {
             get { return Center == Vector2.Zero && Diameter == 0; }
@@ -48,17 +60,31 @@ namespace Duality
             Diameter = diameter;
         }
 
+        /// <summary>
+        /// Moves this circle.
+        /// </summary>
+        /// <param name="amount">Vector2 with x and y values to move this circle by.</param>
         public void Offset(Vector2 amount)
         {
             Center += amount;
         }
 
+        /// <summary>
+        /// Increases this circle's size from the center.
+        /// </summary>
+        /// <param name="amount">Value to increase the size of this circle by.</param>
         public void Inflate(float amount)
         {
             Center -= new Vector2(amount);
             Diameter += amount * 2;
         }
 
+        /// <summary>
+        /// Determines whether this circle contains a specified point.
+        /// </summary>
+        /// <param name="x">X value of point to check.</param>
+        /// <param name="y">Y value of point to check.</param>
+        /// <returns></returns>
         public bool Contains(float x, float y)
         {
             Vector2 v = Vector2.Clamp(center, new Vector2(x, y), new Vector2(x, y));
@@ -69,6 +95,11 @@ namespace Duality
             return ((distanceSquared >= 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
         }
 
+        /// <summary>
+        /// Determines whether this circle contains a specified point.
+        /// </summary>
+        /// <param name="value">Vector2 point to check.</param>
+        /// <returns></returns>
         public bool Contains(Vector2 value)
         {
             Vector2 v = Vector2.Clamp(Center, value, value);
@@ -80,9 +111,10 @@ namespace Duality
         }
 
         /// <summary>
-        /// Determines if a circle intersects a rectangle.
+        /// Determines whether this circle intersects a rectangle.
         /// </summary>
-        /// <returns>True if the circle and rectangle overlap. False otherwise.</returns>
+        /// <param name="value">Rectangle to check intersection.</param>
+        /// <returns></returns>
         public bool Intersects(RectangleF value)
         {
             Vector2 v = Vector2.Clamp(Center, value.TopLeft, value.BottomRight);
@@ -92,34 +124,5 @@ namespace Duality
 
             return ((distanceSquared >= 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
         }
-
-        /// <summary>
-        /// Determines if a circle intersects with a floating-point rectangle.
-        /// </summary>
-        /// <returns>True if the circle and rectangle overlap. False otherwise.</returns>
-        /*public bool Intersects(FloatingRectangle value)
-        {
-            Vector2 v = new Vector2(MathHelper.Clamp(Center.X, value.Left, value.Right),
-                                    MathHelper.Clamp(Center.Y, value.Top, value.Bottom));
-
-            Vector2 direction = Center - v;
-            float distanceSquared = direction.LengthSquared();
-
-            return ((distanceSquared > 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
-        }*/
-
-        /// <summary>
-        /// Determines if a circle contains the mouse.
-        /// </summary>
-        /// <returns>True if the mouse is within the circle. False otherwise</returns>
-        /*public bool Intersects(MouseState mouse, float windowWidth, float windowHeight)
-        {
-            Vector2 v = Vector2.Clamp(Center, new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight), new Vector2(mouse.X * windowWidth, mouse.Y * windowHeight));
-            
-            Vector2 direction = Center - v;
-            float distanceSquared = direction.LengthSquared();
-
-            return ((distanceSquared > 0) && (distanceSquared < (Diameter / 2) * (Diameter / 2)));
-        }*/
     }
 }

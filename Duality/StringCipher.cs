@@ -15,6 +15,12 @@ namespace Duality.Encrypting
         // This constant is used to determine the keysize of the encryption algorithm.
         private const int keysize = 256;
 
+        /// <summary>
+        /// Encrypts a string.
+        /// </summary>
+        /// <param name="plainText">String to encrypt.</param>
+        /// <param name="passPhrase">Key for encryption.</param>
+        /// <returns></returns>
         public static string Encrypt(string plainText, string passPhrase)
         {
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -41,6 +47,12 @@ namespace Duality.Encrypting
             }
         }
 
+        /// <summary>
+        /// Decrypts an encrypted string.
+        /// </summary>
+        /// <param name="cipherText">Encrypted string.</param>
+        /// <param name="passPhrase">Key for decryption.</param>
+        /// <returns></returns>
         public static string Decrypt(string cipherText, string passPhrase)
         {
             byte[] cipherTextBytes = Convert.FromBase64String(cipherText);

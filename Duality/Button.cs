@@ -5,8 +5,14 @@ using SharpDX.Toolkit.Graphics;
 
 namespace Duality.Interaction
 {
+    /// <summary>
+    /// Defines the geometric type of a button.
+    /// </summary>
     public enum ButtonType { Rectangle, Circle, Ellipse };
 
+    /// <summary>
+    /// Define a Button for user interaction.
+    /// </summary>
     public class Button
     {
         private bool leftHeld, rightHeld, clickable;
@@ -16,6 +22,9 @@ namespace Duality.Interaction
 
         private event EventHandler leftClicked;
 
+        /// <summary>
+        /// Event raised when button is left clicked.
+        /// </summary>
         public event EventHandler LeftClicked
         {
             add { leftClicked += value; }
@@ -24,12 +33,18 @@ namespace Duality.Interaction
 
         private event EventHandler rightClicked;
 
+        /// <summary>
+        /// Event raised when button is right clicked.
+        /// </summary>
         public event EventHandler RightClicked
         {
             add { rightClicked += value; }
             remove { rightClicked -= value; }
         }
 
+        /// <summary>
+        /// Position of button used for drawing.
+        /// </summary>
         public Vector2 Position
         {
             get
@@ -49,16 +64,25 @@ namespace Duality.Interaction
             }
         }
 
+        /// <summary>
+        /// Flag raised when left clicked and held.
+        /// </summary>
         public bool LeftHeld
         {
             get { return leftHeld; }
         }
 
+        /// <summary>
+        /// Flag raised when right clicked and held.
+        /// </summary>
         public bool RightHeld
         {
             get { return rightHeld; }
         }
         
+        /// <summary>
+        /// Whether button is clickable or not.
+        /// </summary>
         public bool Clickable
         {
             get { return clickable; }
@@ -70,6 +94,9 @@ namespace Duality.Interaction
             }
         }
 
+        /// <summary>
+        /// Currently active texture used for drawing.
+        /// </summary>
         public Texture2D Texture
         {
             get { return button0; }
@@ -77,6 +104,9 @@ namespace Duality.Interaction
 
         private int bNum;
 
+        /// <summary>
+        /// Identification number used to differentiate between otherwise identical buttons.
+        /// </summary>
         public int ButtonNum
         {
             get { return bNum; }
@@ -245,6 +275,10 @@ namespace Duality.Interaction
             this.windowHeight = windowHeight;
         }
 
+        /// <summary>
+        /// Updates button to check for clicks.
+        /// </summary>
+        /// <param name="mouse"></param>
         public void Update(MouseState mouse)
         {
             mouseState = mouse;
