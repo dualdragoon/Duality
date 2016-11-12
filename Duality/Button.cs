@@ -301,6 +301,8 @@ namespace Duality.Interaction
                     }
                     else
                     {
+                        leftHeld = false;
+                        rightHeld = false;
                         button0 = button1;
                     }
                     break;
@@ -323,6 +325,8 @@ namespace Duality.Interaction
                     }
                     else
                     {
+                        leftHeld = false;
+                        rightHeld = false;
                         button0 = button1;
                     }
                     break;
@@ -345,6 +349,8 @@ namespace Duality.Interaction
                     }
                     else
                     {
+                        leftHeld = false;
+                        rightHeld = false;
                         button0 = button1;
                     }
                     break;

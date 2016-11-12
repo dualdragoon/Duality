@@ -110,6 +110,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScoreBoard.cs" />
+    <Compile Include="ScrollingWindow.cs" />
     <Compile Include="Serialization.cs" />
     <Compile Include="StringCipher.cs" />
   </ItemGroup>
