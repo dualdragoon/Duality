@@ -7,7 +7,10 @@ using Duality.Interaction;
 
 namespace Duality
 {
-    class ScrollingWindow
+    /// <summary>
+    /// Define a Scrolling Window for text display.
+    /// </summary>
+    public class ScrollingWindow
     {
         float height, scrollTopPos;
         Button downArrow, upArrow, scrollBar;
@@ -34,6 +37,14 @@ namespace Duality
                 if (position < 0) position = 0;
                 if (position > 1f) position = 1;
             }
+        }
+
+        /// <summary>
+        /// Strings to be shown.
+        /// </summary>
+        public List<string> Strings
+        {
+            set { strings = value; }
         }
 
         private void LoadContent(Texture2D[] textures, Vector2[] sizes)
