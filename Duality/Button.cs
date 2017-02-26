@@ -15,7 +15,7 @@ namespace Duality.Interaction
     /// </summary>
     public class Button
     {
-        private bool leftHeld, rightHeld, clickable;
+        private bool leftHeld, rightHeld, clickable, hovered;
         private ButtonType type;
         private float diameter, windowWidth, windowHeight;
         private Texture2D button0;
@@ -41,6 +41,14 @@ namespace Duality.Interaction
             add { rightClicked += value; }
             remove { rightClicked -= value; }
         }
+
+		private event EventHandler entered;
+
+		public event EventHandler Entered
+		{
+			add { entered += value; }
+			remove { entered -= value; }
+		}
 
         /// <summary>
         /// Position of button used for drawing.
@@ -79,6 +87,11 @@ namespace Duality.Interaction
         {
             get { return rightHeld; }
         }
+
+		public bool Hovered
+		{
+			get { return hovered; }
+		}
         
         /// <summary>
         /// Whether button is clickable or not.
@@ -288,6 +301,7 @@ namespace Duality.Interaction
                     if (Collision.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight) && clickable)
                     {
                         button0 = button2;
+						OnEntered();
                         if (mouseState.LeftButton.Pressed)
                         {
                             OnLeftClicked();
@@ -304,6 +318,7 @@ namespace Duality.Interaction
                         leftHeld = false;
                         rightHeld = false;
                         button0 = button1;
+						hovered = false;
                     }
                     break;
 
@@ -312,7 +327,8 @@ namespace Duality.Interaction
                     if (Circle.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight) && clickable)
                     {
                         button0 = button2;
-                        if (mouseState.LeftButton.Pressed)
+						OnEntered();
+						if (mouseState.LeftButton.Pressed)
                         {
                             OnLeftClicked();
                         }
@@ -328,7 +344,8 @@ namespace Duality.Interaction
                         leftHeld = false;
                         rightHeld = false;
                         button0 = button1;
-                    }
+						hovered = false;
+					}
                     break;
 
                 case ButtonType.Ellipse:
@@ -336,7 +353,8 @@ namespace Duality.Interaction
                     if (Ellipse.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight) && clickable)
                     {
                         button0 = button2;
-                        if (mouseState.LeftButton.Pressed)
+						OnEntered();
+						if (mouseState.LeftButton.Pressed)
                         {
                             OnLeftClicked();
                         }
@@ -352,6 +370,7 @@ namespace Duality.Interaction
                         leftHeld = false;
                         rightHeld = false;
                         button0 = button1;
+						hovered = false;
                     }
                     break;
 
@@ -369,5 +388,11 @@ namespace Duality.Interaction
         {
             rightClicked?.Invoke(this, EventArgs.Empty);
         }
+
+		private void OnEntered()
+		{
+			hovered = true;
+			entered?.Invoke(this, EventArgs.Empty);
+		}
     }
 }
