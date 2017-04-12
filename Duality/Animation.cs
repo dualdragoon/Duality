@@ -45,7 +45,12 @@ namespace Duality.Graphics
         /// </summary>
         public int FrameCount
         {
-            get { return Texture.Width / FrameWidth; }
+            get
+			{
+				int tempCount = Texture.Width / FrameWidth;
+				if (tempCount == 0) tempCount++;
+				return tempCount;
+			}
         }
 
         /// <summary>
@@ -54,6 +59,7 @@ namespace Duality.Graphics
         public int FrameWidth
         {
             get { return frameWidth; }
+			set { frameWidth = value; }
         }
         int frameWidth;
 
@@ -62,8 +68,10 @@ namespace Duality.Graphics
         /// </summary>
         public int FrameHeight
         {
-            get { return Texture.Height; }
+            get { return frameHeight; }
+			set { frameHeight = value; }
         }
+		int frameHeight;
 
         /// <summary>
         /// Constructs a new animation.
@@ -74,6 +82,7 @@ namespace Duality.Graphics
             this.frameTime = frameTime;
             this.isLooping = isLooping;
             this.frameWidth = frameWidth;
+			frameHeight = texture.Height;
         }
     }
 }

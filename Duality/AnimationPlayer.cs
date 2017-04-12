@@ -82,7 +82,7 @@ namespace Duality.Graphics
             }
 
             // Calculate the source rectangle of the current frame.
-            Rectangle source = new Rectangle(FrameIndex * Animation.Texture.Height, 0, Animation.Texture.Height, Animation.Texture.Height);
+            Rectangle source = new Rectangle(FrameIndex * Animation.FrameWidth, 0, Animation.Texture.Height, Animation.Texture.Height);
 
             // Draw the current frame.
             spriteBatch.Draw(Animation.Texture, position, source, Color.White, 0.0f, Origin, 1.0f, spriteEffects, 0.0f);
@@ -114,7 +114,7 @@ namespace Duality.Graphics
             }
 
             // Calculate the source rectangle of the current frame.
-            Rectangle source = new Rectangle(FrameIndex * Animation.Texture.Height, 0, Animation.Texture.Height, Animation.Texture.Height);
+            Rectangle source = new Rectangle(FrameIndex * Animation.FrameWidth, 0, Animation.Texture.Height, Animation.Texture.Height);
 
             // Draw the current frame.
             spriteBatch.Draw(Animation.Texture, position, source, Color.White, 0.0f, Origin, scale, spriteEffects, 0.0f);
@@ -146,7 +146,7 @@ namespace Duality.Graphics
             }
 
             // Calculate the source rectangle of the current frame.
-            Rectangle source = new Rectangle(FrameIndex * Animation.Texture.Height, 0, Animation.Texture.Height, Animation.Texture.Height);
+            Rectangle source = new Rectangle(FrameIndex * Animation.FrameWidth, 0, Animation.Texture.Height, Animation.Texture.Height);
 
             // Draw the current frame.
             spriteBatch.Draw(Animation.Texture, new Vector2(position.X, position.Y), source, Color.White, 0.0f, Origin, new Vector2(Animation.Texture.Width / position.Width, Animation.Texture.Height / position.Height), spriteEffects, 0.0f);
@@ -178,7 +178,7 @@ namespace Duality.Graphics
             }
 
             // Calculate the source rectangle of the current frame.
-            Rectangle source = new Rectangle(FrameIndex * Animation.Texture.Height, 0, Animation.FrameWidth, Animation.FrameHeight);
+            Rectangle source = new Rectangle(FrameIndex * Animation.FrameWidth, 0, Animation.FrameWidth, Animation.FrameHeight);
 
             // Draw the current frame.
             spriteBatch.Draw(Animation.Texture, position, source, Color.White, 0.0f, Origin, spriteEffects, 0.0f);
