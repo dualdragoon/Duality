@@ -71,16 +71,17 @@ namespace Duality
                 }
                 sw.Close();
                 fs.Close();
-                if (errorLevel == 3)
-                {
-                    MessageBox.Show("Critical Error!\nError code: " + errorCode + "\nRefer to " + recordName +
-                        "\nLocation: " + Path.GetFullPath(recordName).ToString(), "Runtime Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Process.GetCurrentProcess().Kill();
-                }
 
-                Application.Run(new EmailForm(CheckInternetConnection(), errorDetails));
-            }
+                if (errorLevel == 3) Application.Run(new EmailForm(CheckInternetConnection(), errorDetails));
+
+				if (errorLevel == 3)
+				{
+					MessageBox.Show("Critical Error!\nError code: " + errorCode + "\nRefer to " + recordName +
+						"\nLocation: " + Path.GetFullPath(recordName).ToString(), "Runtime Error",
+						MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Process.GetCurrentProcess().Kill();
+				}
+			}
             catch (Exception d)
             {
                 MessageBox.Show("WARNING:\nUnable to create an new error record!\n" + d.ToString(),

@@ -1,7 +1,8 @@
 using System;
-using SharpDX;
-using SharpDX.Toolkit.Input;
-using SharpDX.Toolkit.Graphics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 
 namespace Duality.Interaction
 {
@@ -16,9 +17,22 @@ namespace Duality.Interaction
     public class Button
     {
         private bool leftHeld, rightHeld, clickable, hovered;
+		private ButtonState leftOld = ButtonState.Released, rightOld = ButtonState.Released;
         private ButtonType type;
-        private float diameter, windowWidth, windowHeight;
+		private Color hoverColor = Color.White;
+        private float diameter;
+		private SpriteEffects spriteFlip = SpriteEffects.None;
+		private string name;
         private Texture2D button0;
+
+		/// <summary>
+		/// Direction to flip button sprite.
+		/// </summary>
+		public SpriteEffects SpriteFlip
+		{
+			get { return spriteFlip; }
+			set { spriteFlip = value; }
+		}
 
         private event EventHandler leftClicked;
 
@@ -44,10 +58,35 @@ namespace Duality.Interaction
 
 		private event EventHandler entered;
 
+		/// <summary>
+		/// Event raised when the mouse enters the button's collision.
+		/// </summary>
 		public event EventHandler Entered
 		{
 			add { entered += value; }
 			remove { entered -= value; }
+		}
+
+		private event EventHandler exited;
+
+		/// <summary>
+		/// Event raised when the mouse leaves the button's collision.
+		/// </summary>
+		public event EventHandler Exited
+		{
+			add { exited += value; }
+			remove { exited -= value; }
+		}
+
+		public ButtonType Type
+		{
+			get { return type; }
+		}
+
+		public string Name
+		{
+			get { return name; }
+			set { name = value; }
 		}
 
         /// <summary>
@@ -60,10 +99,10 @@ namespace Duality.Interaction
                 switch (type)
                 {
                     case ButtonType.Circle:
-                        Circle = new Circle(center, diameter);
-                        return Circle.Location;
+                        Circle = new CircleF(center, diameter / 2);
+                        return Circle.Center - new Point2(Circle.Radius, Circle.Radius);
                     case ButtonType.Rectangle:
-                        return Collision.Location;
+                        return Collision.Position;
                     case ButtonType.Ellipse:
                         return Ellipse.Location;
                     default:
@@ -107,6 +146,14 @@ namespace Duality.Interaction
             }
         }
 
+		public Color HoverColor
+		{
+			get { return hoverColor; }
+			set { hoverColor = value; }
+		}
+
+		public Color DisplayColor { get; private set; }
+
         /// <summary>
         /// Currently active texture used for drawing.
         /// </summary>
@@ -144,12 +191,12 @@ namespace Duality.Interaction
         /// <summary>
         /// Backing store for Circle.
         /// </summary>
-        private Circle circle;
+        private CircleF circle;
 
         /// <summary>
         /// Circle structure.
         /// </summary>
-        public Circle Circle
+        public CircleF Circle
         {
             get { return circle; }
             set { circle = value; }
@@ -215,9 +262,7 @@ namespace Duality.Interaction
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
         /// <param name="clickable">Whether button is clickable or not.</param>
-        /// <param name="windowWidth">Width of viewport for scaling.</param>
-        /// <param name="windowHeight">Height of viewport for scaling.</param>
-        public Button(Vector2 position, float width, float height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable, float windowWidth, float windowHeight)
+        public Button(Vector2 position, float width, float height, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable)
         {
             center = Vector2.Zero;
             collision = new RectangleF(position.X, position.Y, width, height);
@@ -228,8 +273,7 @@ namespace Duality.Interaction
             bNum = buttonNum;
             type = ButtonType.Rectangle;
             this.clickable = clickable;
-            this.windowWidth = windowWidth;
-            this.windowHeight = windowHeight;
+			DisplayColor = Color.White;
         }
 
         /// <summary>
@@ -242,14 +286,12 @@ namespace Duality.Interaction
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
         /// <param name="clickable">Whether button is clickable or not.</param>
-        /// <param name="windowWidth">Width of viewport for scaling.</param>
-        /// <param name="windowHeight">Height of viewport for scaling.</param>
-        public Button(Vector2 centerPosition, float circleDiameter, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable, float windowWidth, float windowHeight)
+        public Button(Vector2 centerPosition, float circleDiameter, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable)
         {
             collision = RectangleF.Empty;
             center = centerPosition;
             diameter = circleDiameter;
-            circle = new Circle(center, diameter);
+            circle = new CircleF(center, diameter / 2);
             mouseState = mouse;
             button0 = buttonNorm;
             button1 = buttonNorm;
@@ -257,9 +299,8 @@ namespace Duality.Interaction
             bNum = buttonNum;
             type = ButtonType.Circle;
             this.clickable = clickable;
-            this.windowWidth = windowWidth;
-            this.windowHeight = windowHeight;
-        }
+			DisplayColor = Color.White;
+		}
 
 
         /// <summary>
@@ -271,9 +312,7 @@ namespace Duality.Interaction
         /// <param name="buttonNorm">Ordinary button state.</param>
         /// <param name="buttonHov">Hovered button state.</param>
         /// <param name="clickable">Whether button is clickable or not.</param>
-        /// <param name="windowWidth">Width of viewport for scaling.</param>
-        /// <param name="windowHeight">Height of viewport for scaling.</param>
-        public Button(Vector2 centerPosition, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable, float windowWidth, float windowHeight)
+        public Button(Vector2 centerPosition, int buttonNum, MouseState mouse, Texture2D buttonNorm, Texture2D buttonHov, bool clickable)
         {
             collision = RectangleF.Empty;
             center = centerPosition;
@@ -284,9 +323,8 @@ namespace Duality.Interaction
             bNum = buttonNum;
             type = ButtonType.Ellipse;
             this.clickable = clickable;
-            this.windowWidth = windowWidth;
-            this.windowHeight = windowHeight;
-        }
+			DisplayColor = Color.White;
+		}
 
         /// <summary>
         /// Updates button to check for clicks.
@@ -298,86 +336,87 @@ namespace Duality.Interaction
             switch (type)
             {
                 case ButtonType.Rectangle:
-                    if (Collision.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight) && clickable)
+                    if (Collision.Contains(new Vector2(mouseState.X, mouseState.Y)))
                     {
-                        button0 = button2;
-						OnEntered();
-                        if (mouseState.LeftButton.Pressed)
-                        {
-                            OnLeftClicked();
-                        }
-                        else if (mouseState.RightButton.Pressed)
-                        {
-                            OnRightClicked();
-                        }
-                        leftHeld = mouseState.LeftButton.Down;
-                        rightHeld = mouseState.RightButton.Down;
+						if (!hovered) OnEntered();
+						if (clickable)
+						{
+							if (mouseState.LeftButton == ButtonState.Pressed && leftOld == ButtonState.Released)
+							{
+								OnLeftClicked();
+							}
+							else if (mouseState.RightButton == ButtonState.Pressed && rightOld == ButtonState.Released)
+							{
+								OnRightClicked();
+							}
+							leftHeld = mouseState.LeftButton == ButtonState.Pressed;
+							rightHeld = mouseState.RightButton == ButtonState.Pressed; 
+						}
                     }
                     else
                     {
-                        leftHeld = false;
-                        rightHeld = false;
-                        button0 = button1;
-						hovered = false;
+						if (hovered) OnExited();
                     }
                     break;
 
                 case ButtonType.Circle:
-                    Circle = new Circle(center, diameter);
-                    if (Circle.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight) && clickable)
+                    Circle = new CircleF(center, diameter / 2);
+					double distance = Math.Pow(mouseState.X - Circle.Center.X, 2) + Math.Pow(mouseState.Y - Circle.Center.Y, 2);
+                    if (/*Circle.Contains(new Vector2(mouseState.X, mouseState.Y))*/ distance <= Math.Pow(Circle.Radius, 2))
                     {
-                        button0 = button2;
-						OnEntered();
-						if (mouseState.LeftButton.Pressed)
-                        {
-                            OnLeftClicked();
-                        }
-                        else if (mouseState.RightButton.Pressed)
-                        {
-                            OnRightClicked();
-                        }
-                        leftHeld = mouseState.LeftButton.Down;
-                        rightHeld = mouseState.RightButton.Down;
+						if (!hovered) OnEntered();
+						if (clickable)
+						{
+							if (mouseState.LeftButton == ButtonState.Pressed && leftOld == ButtonState.Released)
+							{
+								OnLeftClicked();
+							}
+							else if (mouseState.RightButton == ButtonState.Pressed && rightOld == ButtonState.Released)
+							{
+								OnRightClicked();
+							}
+							leftHeld = mouseState.LeftButton == ButtonState.Pressed;
+							rightHeld = mouseState.RightButton == ButtonState.Pressed; 
+						}
                     }
                     else
                     {
-                        leftHeld = false;
-                        rightHeld = false;
-                        button0 = button1;
-						hovered = false;
+						if (hovered) OnExited();
 					}
                     break;
 
                 case ButtonType.Ellipse:
                     Ellipse = new Ellipse(button1.Width, button1.Height, center);
-                    if (Ellipse.Contains(mouseState.X * windowWidth, mouseState.Y * windowHeight) && clickable)
+                    if (Ellipse.Contains(mouseState.X, mouseState.Y))
                     {
-                        button0 = button2;
-						OnEntered();
-						if (mouseState.LeftButton.Pressed)
-                        {
-                            OnLeftClicked();
-                        }
-                        else if (mouseState.RightButton.Pressed)
-                        {
-                            OnRightClicked();
-                        }
-                        leftHeld = mouseState.LeftButton.Down;
-                        rightHeld = mouseState.RightButton.Down;
+						if (!hovered) OnEntered();
+						if (clickable)
+						{
+							if (mouseState.LeftButton == ButtonState.Pressed && leftOld == ButtonState.Released)
+							{
+								OnLeftClicked();
+							}
+							else if (mouseState.RightButton == ButtonState.Pressed && rightOld == ButtonState.Released)
+							{
+								OnRightClicked();
+							}
+							leftHeld = mouseState.LeftButton == ButtonState.Pressed;
+							rightHeld = mouseState.RightButton == ButtonState.Pressed; 
+						}
                     }
                     else
                     {
-                        leftHeld = false;
-                        rightHeld = false;
-                        button0 = button1;
-						hovered = false;
+						if (hovered) OnExited();
                     }
                     break;
 
                 default:
                     break;
             }
-        }
+
+			leftOld = mouseState.LeftButton;
+			rightOld = mouseState.RightButton;
+		}
 
         private void OnLeftClicked()
         {
@@ -391,8 +430,20 @@ namespace Duality.Interaction
 
 		private void OnEntered()
 		{
+			button0 = button2;
+			if (Clickable) DisplayColor = hoverColor;
 			hovered = true;
 			entered?.Invoke(this, EventArgs.Empty);
+		}
+
+		private void OnExited()
+		{
+			button0 = button1;
+			DisplayColor = Color.White;
+			hovered = false;
+			leftHeld = false;
+			rightHeld = false;
+			exited?.Invoke(this, EventArgs.Empty);
 		}
     }
 }

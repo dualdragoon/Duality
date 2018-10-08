@@ -1,5 +1,6 @@
 ﻿using System;
-using SharpDX;
+using Microsoft.Xna.Framework;
+using MonoGame.Extended;
 
 namespace Duality
 {

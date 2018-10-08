@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using SharpDX;
-using SharpDX.Toolkit.Graphics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 
 namespace Duality
 {
@@ -91,7 +92,7 @@ namespace Duality
             {
                 Vector2 t = Vector2.CatmullRom(Points[0], Points[1], Points[2], Points[3], i);
                 RectangleF rect = new RectangleF(t.X, t.Y, 2, 2);
-                spriteBatch.Draw(tex, rect, Color.Black);
+                spriteBatch.Draw(tex, rect.ToRectangle(), Color.Black);
             }
         }
     }
