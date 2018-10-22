@@ -19,7 +19,7 @@ namespace Duality.Interaction
         private bool leftHeld, rightHeld, clickable, hovered;
 		private ButtonState leftOld = ButtonState.Released, rightOld = ButtonState.Released;
         private ButtonType type;
-		private Color hoverColor = Color.White;
+		private Color hoverColor = Color.White, normalTint = Color.White;
         private float diameter;
 		private SpriteEffects spriteFlip = SpriteEffects.None;
 		private string name;
@@ -152,6 +152,12 @@ namespace Duality.Interaction
 			set { hoverColor = value; }
 		}
 
+		public Color NormalColor
+		{
+			get { return normalTint; }
+			set { normalTint = value; }
+		}
+
 		public Color DisplayColor { get; private set; }
 
         /// <summary>
@@ -160,6 +166,7 @@ namespace Duality.Interaction
         public Texture2D Texture
         {
             get { return button0; }
+			set { button0 = value; }
         }
 
         private int bNum;
@@ -226,6 +233,7 @@ namespace Duality.Interaction
         /// </summary>
         public Texture2D UnpressedButton
         {
+			get { return button1; }
             set { button1 = value; }
         }
 
@@ -234,6 +242,7 @@ namespace Duality.Interaction
         /// </summary>
         public Texture2D HoveredButton
         {
+			get { return button2; }
             set { button2 = value; }
         }
 
@@ -439,7 +448,7 @@ namespace Duality.Interaction
 		private void OnExited()
 		{
 			button0 = button1;
-			DisplayColor = Color.White;
+			DisplayColor = normalTint;
 			hovered = false;
 			leftHeld = false;
 			rightHeld = false;
