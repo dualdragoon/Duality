@@ -26,7 +26,6 @@ namespace Duality
         private static StreamWriter sw;
         private static StreamReader sr;
         private static DateTime currentDateTime = DateTime.Now;
-        private static Ping ping = new Ping();
 
         /// <summary>
         /// Records a new Error.
@@ -71,8 +70,6 @@ namespace Duality
                 }
                 sw.Close();
                 fs.Close();
-
-                if (errorLevel == 3) Application.Run(new EmailForm(CheckInternetConnection(), errorDetails));
 
 				if (errorLevel == 3)
 				{
@@ -314,23 +311,6 @@ namespace Duality
             catch
             {
                 Console.WriteLine("GPU Data retrieval FAILED");
-            }
-        }
-
-        private static bool CheckInternetConnection()
-        {
-            try
-            {
-                String host = "google.com";
-                byte[] buffer = new byte[32];
-                int timeout = 1000;
-                PingOptions pingOptions = new PingOptions();
-                PingReply reply = ping.Send(host, timeout, buffer, pingOptions);
-                return (reply.Status == IPStatus.Success);
-            }
-            catch
-            {
-                return false;
             }
         }
     }
